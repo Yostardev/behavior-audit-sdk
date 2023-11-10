@@ -43,7 +43,7 @@ func NewBehaviorAudit() *BehaviorAudit {
 			start string
 			end   string
 		}{
-			start: time.Now().Format("2006-01-02 15:04:05"),
+			start: time.Now().Local().Format("2006-01-02 15:04:05"),
 		},
 	}
 }
@@ -81,7 +81,7 @@ func (b *BehaviorAudit) SetData(original, new string) *BehaviorAudit {
 
 func (b *BehaviorAudit) Send() error {
 	if b.time.end == "" {
-		b.time.end = time.Now().Format("2006-01-02 15:04:05")
+		b.time.end = time.Now().Local().Format("2006-01-02 15:04:05")
 	}
 
 	log := producer.GenerateLog(
