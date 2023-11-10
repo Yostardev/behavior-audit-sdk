@@ -38,13 +38,14 @@ type BehaviorAudit struct {
 }
 
 func NewBehaviorAudit() *BehaviorAudit {
-	lo, _ := time.LoadLocation("Asia/Shanghai")
+	cstZone := time.FixedZone("GMT", 8*3600)
 	return &BehaviorAudit{
 		time: struct {
 			start string
 			end   string
 		}{
-			start: time.Now().In(lo).Format("2006-01-02 15:04:05"),
+
+			start: time.Now().In(cstZone).Format("2006-01-02 15:04:05"),
 		},
 	}
 }
@@ -82,8 +83,8 @@ func (b *BehaviorAudit) SetData(original, new string) *BehaviorAudit {
 
 func (b *BehaviorAudit) Send() error {
 	if b.time.end == "" {
-		lo, _ := time.LoadLocation("Asia/Shanghai")
-		b.time.end = time.Now().In(lo).Format("2006-01-02 15:04:05")
+		cstZone := time.FixedZone("GMT", 8*3600)
+		b.time.end = time.Now().In(cstZone).Format("2006-01-02 15:04:05")
 	}
 
 	log := producer.GenerateLog(
